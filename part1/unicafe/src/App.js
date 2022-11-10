@@ -2,20 +2,27 @@ import { useState } from 'react'
 
 const Heading = ({ text }) => <h1>{text}</h1>;
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
-const StatisticLine = ({ name, value }) => <p>{name} {value}</p>;
+const StatisticLine = ({ text, value }) => (
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
+);
 const Statistics = ({ data }) => {
   if ((data[0].value + data[1].value + data[2].value) === 0) {
     return <p>No feedback given</p>
   }
   return (
-    <div>
-      <StatisticLine text={data[0].title} value={data[0].value}/>
-      <StatisticLine text={data[1].title} value={data[1].value}/>
-      <StatisticLine text={data[2].title} value={data[2].value}/>
-      <StatisticLine text={data[3].title} value={data[3].value}/>
-      <StatisticLine text={data[4].title} value={data[4].value}/>
-      <StatisticLine text={data[5].title} value={data[5].value}/>
-    </div>
+    <table>
+      <tbody>
+        <StatisticLine text={data[0].title} value={data[0].value} />
+        <StatisticLine text={data[1].title} value={data[1].value} />
+        <StatisticLine text={data[2].title} value={data[2].value} />
+        <StatisticLine text={data[3].title} value={data[3].value} />
+        <StatisticLine text={data[4].title} value={data[4].value} />
+        <StatisticLine text={data[5].title} value={data[5].value} />
+      </tbody>
+    </table>
   )
 }
 const App = () => {
