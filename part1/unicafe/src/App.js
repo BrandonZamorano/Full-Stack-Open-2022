@@ -2,7 +2,19 @@ import { useState } from 'react'
 
 const Heading = ({ text }) => <h1>{text}</h1>;
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
-const Statistic = ({ name, value }) => <p>{name} {value}</p>
+const Statistic = ({ name, value }) => <p>{name} {value}</p>;
+const Statistics = ({ data }) => {
+  return (
+    <div>
+      <Statistic name={data[0].title} value={data[0].value}/>
+      <Statistic name={data[1].title} value={data[1].value}/>
+      <Statistic name={data[2].title} value={data[2].value}/>
+      <Statistic name={data[3].title} value={data[3].value}/>
+      <Statistic name={data[4].title} value={data[4].value}/>
+      <Statistic name={data[5].title} value={data[5].value}/>
+    </div>
+  )
+}
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -24,12 +36,31 @@ const App = () => {
       <Button onClick={addBadRating} text="bad" />
 
       <Heading text="statistics" />
-      <Statistic name="good" value={good} />
-      <Statistic name="neutral" value={neutral} />
-      <Statistic name="bad" value={bad} />
-      <Statistic name="all" value={totalFeedback} />
-      <Statistic name="average" value={feedbackScore / totalFeedback} />
-      <Statistic name="positive" value={good / totalFeedback * 100 + " %"} />
+      <Statistics data={[
+        {
+          title: "good",
+          value: good
+        }, {
+          title: "neutral",
+          value: neutral
+        },
+        {
+          title: "bad",
+          value: bad
+        },
+        {
+          title: "all",
+          value: totalFeedback
+        },
+        {
+          title: "average",
+          value: feedbackScore / totalFeedback
+        }, 
+        {
+          title: "positive",
+          value: good / totalFeedback * 100 + " %"
+        }
+      ]} />
     </div>
   )
 }
