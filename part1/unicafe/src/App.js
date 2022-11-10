@@ -4,6 +4,9 @@ const Heading = ({ text }) => <h1>{text}</h1>;
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
 const Statistic = ({ name, value }) => <p>{name} {value}</p>;
 const Statistics = ({ data }) => {
+  if ((data[0].value + data[1].value + data[2].value) === 0) {
+    return <p>No feedback given</p>
+  }
   return (
     <div>
       <Statistic name={data[0].title} value={data[0].value}/>
