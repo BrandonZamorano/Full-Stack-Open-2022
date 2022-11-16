@@ -12,6 +12,17 @@ const App = () => {
 
   const addNewPerson = (event) => {
     event.preventDefault();
+
+    // check if person with name already exists
+    if (persons.find(person => person.name === newName)) {
+      //   issue a warning if already exists
+
+      alert(`${newName} is already added to the phonebook`)
+      setNewName('');
+      return;
+    }
+
+
     const personObject = {
       name: newName
     }
@@ -22,6 +33,7 @@ const App = () => {
         personObject
       ]
     )
+    setNewName('');
   }
 
   return (
@@ -30,7 +42,6 @@ const App = () => {
       <form onSubmit={addNewPerson}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
-          <div>debug: {newName}</div>
         </div>
         <div>
           <button type="submit">add</button>
