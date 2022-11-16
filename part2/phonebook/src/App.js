@@ -2,8 +2,8 @@ import { useState , useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import PhoneBook from './components/PhoneBook'
+import personService from './services/person'
 
-import axios from 'axios'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -13,11 +13,8 @@ const App = () => {
   
   useEffect(() => {
     console.log('useEffect()');
-    axios.get("http://localhost:3001/persons").then(
-      response => {
-        setPersons(response.data)
-      }
-    )
+    personService.getAll()
+    .then(initialPersons => setPersons(initialPersons))
   }, [])
   
   const personsToShow = searchFilter.length > 0 ? persons.filter(
@@ -55,15 +52,14 @@ const App = () => {
       name: newName,
       number: newNumber
     }
+    
+    personService.create(personObject).then(personReturned => {
+      setPersons([...persons, personReturned])
 
-    setPersons(
-      [
-        ...persons,
-        personObject
-      ]
-    )
-    setNewName('');
-    setNewNumber('');
+      setNewName('');
+      setNewNumber('');
+    })
+
   }
 
   return (
