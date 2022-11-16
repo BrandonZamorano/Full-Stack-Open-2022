@@ -1,7 +1,7 @@
 import CountryInfo from "./CountryInfo"
 import CountryResultItem from "./CountryResultItem"
 
-const CountryResults = ({ results }) => {
+const CountryResults = ({ results , showCountryInfo}) => {
     if (results.length === 1) {
         // render single country
         return <CountryInfo country={results[0]} />
@@ -31,7 +31,7 @@ const CountryResults = ({ results }) => {
     return (
         <div>
         {sortedResults.map(country => (
-            <CountryResultItem key={country.cca2} country={country} />
+            <CountryResultItem key={country.cca2} country={country} showCountryInfo={showCountryInfo}/>
         ))}
 
         </div>

@@ -20,6 +20,10 @@ function App() {
     setCountrySearchValue(event.target.value);
   }
   
+  const showCountryInfo = (countryName) => {
+    setCountrySearchValue(countryName)
+  }
+  
 
   return (
     <div className="App">
@@ -27,7 +31,7 @@ function App() {
         find countries <input type="text" value={countrySearchValue} onChange={handleCountrySearchValueChange} />
       </div>
    {countrySearchValue.trim().length > 0 &&  
-    <CountryResults  results={countriesToShow}/>
+    <CountryResults  results={countriesToShow} showCountryInfo={showCountryInfo} />
    }
     </div>
   );
