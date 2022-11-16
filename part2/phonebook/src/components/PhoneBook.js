@@ -1,8 +1,11 @@
 import Person from "./Person";
-const PhoneBook = ({persons}) => {
+const PhoneBook = ({persons, deletePerson}) => {
 
     return <>{persons.map(person => (
-        <Person key={person.name} name={person.name} number={person.number} />
+        <Person key={person.id}
+            name={person.name}
+            number={person.number}
+            deletePerson={() => deletePerson(person.id, person.name)} />
     ))}
     </>
 }

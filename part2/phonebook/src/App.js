@@ -61,6 +61,24 @@ const App = () => {
     })
 
   }
+  
+  const deletePerson = (id,name) => {
+    // find person with matching name
+    // const person = persons.find(person => person.id === id);
+    // send delete request
+    //
+      //
+      const shouldDelete = window.confirm(`Delete ${name}?`);
+      if (!shouldDelete) {
+        return;
+      }
+
+      setPersons(persons.filter(person => person.id !== id));
+    personService.remove(id).then(response => {
+      console.log("Delete response: ", response);
+    })
+    // filter out deleted person
+  }
 
   return (
     <div>
@@ -77,7 +95,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <PhoneBook persons={personsToShow} />
+      <PhoneBook persons={personsToShow} deletePerson={deletePerson} />
     </div>
   )
 }
