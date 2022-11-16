@@ -37,21 +37,35 @@ const App = () => {
   const addNewPerson = (event) => {
     event.preventDefault();
 
+
     // check if person with name already exists
-    if (persons.find(person => person.name === newName)) {
+    const person = persons.find(person => person.name === newName);
+    if (person) {
       //   issue a warning if already exists
 
-      alert(`${newName} is already added to the phonebook`)
+      const shouldUpdatePerson = window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)
+      
+      if (shouldUpdatePerson) {
+        const updatedPerson = {
+          ...person, 
+          number: newNumber,
+        }
+        personService.update(person.id, updatedPerson).then(changedPerson => {
+          setPersons(persons.map(person => person.id === changedPerson.id ? changedPerson : person))
+        }
+        )
+      }
+
       setNewName('');
       setNewNumber('');
       return;
     }
 
-
     const personObject = {
       name: newName,
       number: newNumber
     }
+
     
     personService.create(personObject).then(personReturned => {
       setPersons([...persons, personReturned])
