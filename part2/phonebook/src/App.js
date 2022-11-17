@@ -11,7 +11,9 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchFilter, setSearchFilter] = useState('')
-  const [message, setMessage] = useState(null)
+  // const [message, setMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   
   useEffect(() => {
     console.log('useEffect()');
@@ -54,12 +56,21 @@ const App = () => {
         }
         personService.update(person.id, updatedPerson).then(changedPerson => {
           setPersons(persons.map(person => person.id === changedPerson.id ? changedPerson : person))
-          setMessage(`Updated ${changedPerson.name}'s phone number to ${changedPerson.number}`)
+          setSuccessMessage(`Updated ${changedPerson.name}'s phone number to ${changedPerson.number}`)
           setTimeout(() => {
-            setMessage(null);
+            setSuccessMessage(null);
           }, 5000)
         }
-        )
+        ).catch((error) => {
+          // set error message
+          setErrorMessage(`Information of ${newName} has already been removed from server`)
+          // remove person from state
+          setPersons(persons.filter(p => p.id !== person.id))
+          
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 5000)
+        })
       }
 
       setNewName('');
@@ -75,10 +86,10 @@ const App = () => {
     
     personService.create(personObject).then(personReturned => {
       setPersons([...persons, personReturned])
-      setMessage(`Added ${personReturned.name}`)
+      setSuccessMessage(`Added ${personReturned.name}`)
       
       setTimeout(() => {
-        setMessage(null)
+        setSuccessMessage(null)
       }, 5000)
 
       setNewName('');
@@ -108,7 +119,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-    <Notification message={message} />
+    <Notification message={successMessage || errorMessage} notificationType={errorMessage ? 'error' : null} />
       <Filter searchFilter={searchFilter} handleSearchFilterChange={handleSearchFilterChange} />
 
       <h2>add a new</h2>
