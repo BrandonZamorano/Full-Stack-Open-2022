@@ -1,5 +1,6 @@
 import { useState , useEffect } from 'react'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 import PersonForm from './components/PersonForm'
 import PhoneBook from './components/PhoneBook'
 import personService from './services/person'
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchFilter, setSearchFilter] = useState('')
+  const [message, setMessage] = useState(null)
   
   useEffect(() => {
     console.log('useEffect()');
@@ -52,6 +54,10 @@ const App = () => {
         }
         personService.update(person.id, updatedPerson).then(changedPerson => {
           setPersons(persons.map(person => person.id === changedPerson.id ? changedPerson : person))
+          setMessage(`Updated ${changedPerson.name}'s phone number to ${changedPerson.number}`)
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000)
         }
         )
       }
@@ -69,6 +75,11 @@ const App = () => {
     
     personService.create(personObject).then(personReturned => {
       setPersons([...persons, personReturned])
+      setMessage(`Added ${personReturned.name}`)
+      
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
 
       setNewName('');
       setNewNumber('');
@@ -97,6 +108,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+    <Notification message={message} />
       <Filter searchFilter={searchFilter} handleSearchFilterChange={handleSearchFilterChange} />
 
       <h2>add a new</h2>
